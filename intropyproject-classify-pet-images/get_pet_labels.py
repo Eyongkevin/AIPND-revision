@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 # */AIPND-revision/intropyproject-classify-pet-images/get_pet_labels.py
 #                                                                             
-# PROGRAMMER: 
+# PROGRAMMER:  Eyong Kevin Enowanyo
 # DATE CREATED:                                  
 # REVISED DATE: 
 # PURPOSE: Create the function get_pet_labels that creates the pet labels from 
@@ -42,4 +42,19 @@ def get_pet_labels(image_dir):
     """
     # Replace None with the results_dic dictionary that you created with this
     # function
-    return None
+    get_images = listdir(image_dir)
+    print("Image size is:",len(get_images))
+    results_dic = dict()
+
+    for get_image in get_images:
+        label_names = ""
+        label_name_list = []
+     
+        splitImage = get_image.lower().split("_")
+        for si in splitImage:
+            if si.isalpha():
+                label_names += si +" "
+        label_name_list.append(label_names.strip())
+        results_dic[get_image] = label_name_list
+                
+    return results_dic

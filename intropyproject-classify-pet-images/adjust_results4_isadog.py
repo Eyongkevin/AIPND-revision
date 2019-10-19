@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 # */AIPND-revision/intropyproject-classify-pet-images/adjust_results4_isadog.py
 #                                                                             
-# PROGRAMMER: 
+# PROGRAMMER:  Eyong Kevin Enowanyo
 # DATE CREATED:                                 
 # REVISED DATE: 
 # PURPOSE: Create a function adjust_results4_isadog that adjusts the results 
@@ -66,5 +66,32 @@ def adjust_results4_isadog(results_dic, dogfile):
                maltese) (string - indicates text file's filename)
     Returns:
            None - results_dic is mutable data type so no return needed.
-    """           
-    None
+    """       
+       # Initialize a dictionary to hold the dog names as key and arbituary value 1.
+    dognames_dic = dict()
+    
+    # Open file, read content and add to dict
+    with open(dogfile, 'r') as dognames:
+        
+        line = dognames.readline()
+        while line !="":
+            line = line.rstrip()
+            if line in dognames_dic:
+                print("Warning: duplicate dog names {}  found in file".format(line))
+            else:
+                dognames_dic[line] = 1
+            
+            line = dognames.readline()
+            
+    
+    for filename in results_dic:
+        # Compare for pet image label
+        compare_pet_label = 1 if results_dic[filename][0] in dognames_dic else 0
+        
+        # compare for classifier label
+        compare_classifier_label = 1 if results_dic[filename][1] in dognames_dic else 0
+        
+        # Add compare values to dict
+        results_dic[filename].extend([compare_pet_label, compare_classifier_label])
+
+            
