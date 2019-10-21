@@ -48,21 +48,23 @@ def get_pet_labels(image_dir):
     results_dic = dict()
 
     for get_image in get_images:
-        label_names = ""
-        label_name_list = []
-        # Split text to remove the extension and use just the root name
-        root_image_name = splitext(get_image)[0]
-        
-        splitImage = root_image_name.lower().split("_")
-        for si in splitImage:
-            if si.isalpha() and not si.startswith('.'):
-                label_names += si +" "
-        label_name_list.append(label_names.strip())
-        # Make sure file name is not already in dict
-        if get_image not in results_dic:
-            results_dic[get_image] = label_name_list
-        else:
-            print("** Warning: Duplicate files exist in directory: ", 
-                     get_image)
+        if not get_image.startswith('.'):
+            label_names = ""
+            label_name_list = []
+            # Split text to remove the extension and use just the root name
+            root_image_name = splitext(get_image)[0]
+
+            splitImage = root_image_name.lower().split("_")
+            for si in splitImage:
+                if si.isalpha():
+                    label_names += si +" "
+            label_name_list.append(label_names.strip())
+            # Make sure file name is not already in dict
+            if get_image not in results_dic:
+                results_dic[get_image] = label_name_list
+            else:
+                print("** Warning: Duplicate files exist in directory: ", 
+                         get_image)
                 
     return results_dic
+
