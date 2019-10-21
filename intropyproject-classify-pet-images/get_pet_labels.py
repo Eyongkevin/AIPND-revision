@@ -4,7 +4,7 @@
 #                                                                             
 # PROGRAMMER:  Eyong Kevin Enowanyo
 # DATE CREATED: Oct 19, 2019                                  
-# REVISED DATE: 
+# REVISED DATE: Oct 21, 2019
 # PURPOSE: Create the function get_pet_labels that creates the pet labels from 
 #          the image's filename. This function inputs: 
 #           - The Image Folder as image_dir within get_pet_labels function and 
@@ -18,6 +18,7 @@
 ##
 # Imports python modules
 from os import listdir
+from os.path import splitext
 
 # TODO 2: Define get_pet_labels function below please be certain to replace None
 #       in the return statement with results_dic dictionary that you create 
@@ -49,12 +50,19 @@ def get_pet_labels(image_dir):
     for get_image in get_images:
         label_names = ""
         label_name_list = []
-     
-        splitImage = get_image.lower().split("_")
+        # Split text to remove the extension and use just the root name
+        root_image_name = splitext(get_image)[0]
+        
+        splitImage = root_image_name.lower().split("_")
         for si in splitImage:
-            if si.isalpha():
+            if si.isalpha() and not si.startswith('.'):
                 label_names += si +" "
         label_name_list.append(label_names.strip())
-        results_dic[get_image] = label_name_list
+        # Make sure file name is not already in dict
+        if get_image not in results_dic:
+            results_dic[get_image] = label_name_list
+        else:
+            print("** Warning: Duplicate files exist in directory: ", 
+                     get_image)
                 
     return results_dic
